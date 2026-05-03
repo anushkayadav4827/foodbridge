@@ -266,7 +266,7 @@ class PhotoService {
         }
 
         // Get original metadata
-        const originalMetadata = await sharp(file.buffer).metadata();
+        await sharp(file.buffer).metadata();
 
         // Compress photo
         const compressedBuffer = await this.compressPhoto(file.buffer);

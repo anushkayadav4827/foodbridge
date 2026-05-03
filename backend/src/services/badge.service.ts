@@ -300,7 +300,7 @@ export class BadgeService {
     return allBadges.map(badge => ({
       ...badge,
       earned: userBadgeIds.has(badge.id),
-      earned_at: userBadges.find(b => b.id === badge.id)?.awarded_at || null,
+      earned_at: userBadges.find(b => b.id === badge.id)?.created_at || null,
     }));
   }
 }

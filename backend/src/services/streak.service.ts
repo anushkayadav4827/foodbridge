@@ -33,7 +33,7 @@ export class StreakService {
         currentStreak = 1;
       } else {
         const hoursSinceLastActive = (now.getTime() - lastActive.getTime()) / (1000 * 60 * 60);
-        const daysSinceLastActive = Math.floor(hoursSinceLastActive / 24);
+        Math.floor(hoursSinceLastActive / 24);
 
         // Check if it's a new day
         const lastActiveDay = new Date(lastActive).setHours(0, 0, 0, 0);

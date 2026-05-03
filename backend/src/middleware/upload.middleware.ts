@@ -17,7 +17,7 @@ const storage = multer.memoryStorage();
 
 // File filter
 const fileFilter = (
-  req: Request,
+  _req: Request,
   file: Express.Multer.File,
   cb: multer.FileFilterCallback
 ) => {
@@ -67,7 +67,7 @@ export const uploadMultiplePhotos = multer({
 
 export function handleUploadError(
   error: any,
-  req: Request,
+  _req: Request,
   res: any,
   next: any
 ) {
