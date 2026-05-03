@@ -1,0 +1,47 @@
+========================================
+  ⚠️ GIT NOT INSTALLED
+========================================
+
+Git is required to push code to GitHub.
+
+========================================
+  ✅ SOLUTION - CHOOSE ONE
+========================================
+
+OPTION 1: Install Git (Command Line)
+        👉 Go to: https://git-scm.com/download/win
+        👉 Download "64-bit Git for Windows Setup"
+        👉 Install (click Next through all steps)
+        👉 Close and reopen terminal
+        👉 Run: INSTALL_GIT_AND_PUSH.bat
+
+OPTION 2: Use GitHub Desktop (EASIER)
+        👉 Go to: https://desktop.github.com/
+        👉 Download and install
+        👉 Sign in with GitHub
+        👉 Click "Add" → "Add Existing Repository"
+        👉 Browse to: C:\Users\Asus\OneDrive\Desktop\wastenot
+        👉 Click "Publish repository"
+        👉 Name: foodbridge
+        👉 Click "Publish"
+
+========================================
+  📋 AFTER PUSHING TO GITHUB
+========================================
+
+1. Verify code is on GitHub:
+   https://github.com/anushkayadav5403/foodbridge
+
+2. Continue with Render deployment:
+   Open: ✅_COMPLETE_DEPLOYMENT_GUIDE.md
+
+========================================
+  🎯 RECOMMENDED
+========================================
+
+Use GitHub Desktop (Option 2)
+It's easier and doesn't require command line!
+
+Download: https://desktop.github.com/
+
+========================================

@@ -1,0 +1,107 @@
+========================================
+  DEPLOYMENT CHECKLIST
+========================================
+
+CURRENT STATUS:
+✅ Frontend deployed to Firebase
+⏳ Backend needs deployment
+
+YOUR GITHUB REPOSITORY:
+https://github.com/anushkayadav5403/foodbridge
+
+========================================
+  STEP 1: INSTALL GIT (5 minutes)
+========================================
+
+⏳ Download Git from: https://git-scm.com/download/win
+⏳ Install Git (click Next through all steps)
+⏳ Close and reopen your terminal
+
+OR use GitHub Desktop (easier):
+⏳ Download from: https://desktop.github.com/
+⏳ Install and sign in with GitHub
+
+========================================
+  STEP 2: PUSH CODE TO GITHUB (3 min)
+========================================
+
+⏳ Double-click: PUSH_TO_GITHUB.bat
+⏳ Follow the prompts
+⏳ Verify code is on GitHub:
+   https://github.com/anushkayadav5403/foodbridge
+
+========================================
+  STEP 3: DEPLOY TO RENDER (15 min)
+========================================
+
+⏳ Go to: https://render.com/
+⏳ Sign up with GitHub
+⏳ Create PostgreSQL Database:
+   - Click "New +" → "PostgreSQL"
+   - Name: foodbridge-db
+   - Plan: Free
+   - Copy "Internal Database URL"
+
+⏳ Create Web Service:
+   - Click "New +" → "Web Service"
+   - Connect foodbridge repository
+   - Root Directory: backend
+   - Build: npm install && npm run build
+   - Start: npm start
+   - Plan: Free
+
+⏳ Add Environment Variables:
+   - See: RENDER_ENV_VARIABLES.txt
+   - Paste your database URL
+
+⏳ Wait for deployment (3-5 minutes)
+
+⏳ Run migrations in Shell tab:
+   cd backend && node create-database.js
+
+⏳ Copy your backend URL:
+   Example: https://foodbridge-backend.onrender.com
+
+========================================
+  STEP 4: CONNECT FRONTEND (5 min)
+========================================
+
+⏳ Double-click: UPDATE_FRONTEND.bat
+⏳ Enter your Render backend URL
+⏳ Wait for rebuild and redeploy
+
+========================================
+  STEP 5: TEST YOUR APP
+========================================
+
+⏳ Go to: https://foodbridge-app-51332.web.app
+⏳ Login with any phone number
+⏳ OTP: 123456
+⏳ Create a test listing
+⏳ Check dashboard
+
+========================================
+  SUCCESS!
+========================================
+
+Your app is fully live at:
+- Frontend: https://foodbridge-app-51332.web.app
+- Backend: https://your-backend-url.onrender.com
+
+Total Cost: $0/month (completely free!)
+
+========================================
+  NEED HELP?
+========================================
+
+Read detailed guides:
+- 🚀_NEXT_STEPS.md (quick guide)
+- ✅_COMPLETE_DEPLOYMENT_GUIDE.md (full guide)
+- DEPLOY_BACKEND_TO_RENDER.md (backend details)
+- PUSH_TO_GITHUB_NOW.md (Git help)
+
+========================================
+
+START WITH STEP 1: Install Git
+https://git-scm.com/download/win
+

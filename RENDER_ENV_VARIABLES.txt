@@ -1,0 +1,54 @@
+# Environment Variables for Render Deployment
+# Copy these to Render Web Service → Environment Variables
+
+# ========================================
+# REQUIRED VARIABLES (Must be set)
+# ========================================
+
+NODE_ENV=production
+PORT=3005
+DATABASE_URL=<PASTE_YOUR_INTERNAL_DATABASE_URL_HERE>
+JWT_SECRET=<CHANGE_TO_RANDOM_STRING>
+JWT_REFRESH_SECRET=<CHANGE_TO_RANDOM_STRING>
+
+# ========================================
+# CORS (Update with your Firebase URL)
+# ========================================
+
+CORS_ORIGIN=https://foodbridge-app-51332.web.app
+
+# ========================================
+# OPTIONAL VARIABLES (Can leave empty for now)
+# ========================================
+
+# Redis (Not available on free tier - leave as is)
+REDIS_URL=redis://localhost:6379
+
+# Twilio (For real SMS - leave empty to use mock OTP)
+TWILIO_ACCOUNT_SID=
+TWILIO_AUTH_TOKEN=
+TWILIO_PHONE_NUMBER=
+
+# AWS S3 (For file uploads - leave empty for now)
+AWS_REGION=ap-south-1
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_S3_BUCKET=foodbridge-uploads
+
+# Google Maps (Optional)
+GOOGLE_MAPS_API_KEY=
+
+# ========================================
+# INSTRUCTIONS
+# ========================================
+
+1. Copy each variable above
+2. In Render dashboard, click "Add Environment Variable"
+3. Paste Key and Value
+4. Repeat for all variables
+
+IMPORTANT:
+- Replace <PASTE_YOUR_INTERNAL_DATABASE_URL_HERE> with actual database URL from Step 3
+- Replace <CHANGE_TO_RANDOM_STRING> with random strings (e.g., "my-super-secret-key-12345")
+- Update CORS_ORIGIN with your actual Firebase URL
+

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Backend Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-result {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #1B5E20;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 FoodBridge Backend Connection Test</h1>
+    
+    <div>
+        <h2>Test Configuration:</h2>
+        <ul>
+            <li><strong>Backend URL:</strong> http://localhost:3005</li>
+            <li><strong>API Base:</strong> http://localhost:3005/api/v1</li>
+            <li><strong>Frontend URL:</strong> http://localhost:3001</li>
+        </ul>
+    </div>
+
+    <button onclick="testConnection()">🧪 Test Backend Connection</button>
+    
+    <div id="results"></div>
+
+    <script>
+        async function testConnection() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>Testing...</p>';
+            
+            const tests = [];
+            
+            // Test 1: Health endpoint
+            try {
+                const response = await fetch('http://localhost:3005/health');
+                const data = await response.json();
+                tests.push({
+                    name: 'Health Check',
+                    success: true,
+                    message: 'Backend is running!',
+                    data: data
+                });
+            } catch (error) {
+                tests.push({
+                    name: 'Health Check',
+                    success: false,
+                    message: 'Cannot connect to backend',
+                    error: error.message
+                });
+            }
+            
+            // Test 2: CORS
+            try {
+                const response = await fetch('http://localhost:3005/api/v1/listings');
+                tests.push({
+                    name: 'CORS Test',
+                    success: true,
+                    message: 'CORS is configured correctly',
+                    status: response.status
+                });
+            } catch (error) {
+                tests.push({
+                    name: 'CORS Test',
+                    success: false,
+                    message: 'CORS error or connection failed',
+                    error: error.message
+                });
+            }
+            
+            // Display results
+            let html = '<h2>Test Results:</h2>';
+            tests.forEach(test => {
+                const className = test.success ? 'success' : 'error';
+                html += `
+                    <div class="test-result ${className}">
+                        <h3>${test.success ? '✅' : '❌'} ${test.name}</h3>
+                        <p>${test.message}</p>
+                        ${test.data ? `<pre>${JSON.stringify(test.data, null, 2)}</pre>` : ''}
+                        ${test.error ? `<p><strong>Error:</strong> ${test.error}</p>` : ''}
+                    </div>
+                `;
+            });
+            
+            resultsDiv.innerHTML = html;
+        }
+    </script>
+</body>
+</html>

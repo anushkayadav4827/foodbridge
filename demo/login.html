@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodBridge - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #52a86f 0%, #4a9d63 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .welcome-text {
+            text-align: center;
+            color: #4a5568;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .error-message {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error-message.show {
+            display: flex;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            color: #4a5568;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .phone-input-wrapper {
+            display: flex;
+            align-items: center;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 16px;
+            transition: border-color 0.3s;
+        }
+
+        .phone-input-wrapper:focus-within {
+            border-color: #52a86f;
+        }
+
+        .phone-icon {
+            color: #718096;
+            margin-right: 10px;
+        }
+
+        .phone-prefix {
+            color: #2d3748;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+
+        .phone-input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 16px;
+            color: #2d3748;
+        }
+
+        .helper-text {
+            color: #718096;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .send-otp-btn {
+            width: 100%;
+            background: #52a86f;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .send-otp-btn:hover {
+            background: #4a9d63;
+        }
+
+        .send-otp-btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        .terms-text {
+            text-align: center;
+            color: #718096;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .terms-text a {
+            color: #52a86f;
+            text-decoration: none;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-link a {
+            color: #52a86f;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* OTP Input Screen */
+        .otp-screen {
+            display: none;
+        }
+
+        .otp-screen.active {
+            display: block;
+        }
+
+        .otp-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .otp-input:focus {
+            border-color: #52a86f;
+        }
+
+        .resend-text {
+            text-align: center;
+            color: #718096;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .resend-link {
+            color: #52a86f;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .resend-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Phone Number Screen -->
+        <div id="phoneScreen" class="phone-screen">
+            <div class="logo">
+                <div class="logo-icon">🌱</div>
+                <div class="logo-text">FoodBridge</div>
+            </div>
+
+            <div class="welcome-text">Welcome! Let's get started</div>
+
+            <div class="error-message" id="errorMessage">
+                <span>⚠️</span>
+                <span id="errorText">Failed to send OTP</span>
+            </div>
+
+            <form id="phoneForm">
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <div class="phone-input-wrapper">
+                        <span class="phone-icon">📱</span>
+                        <span class="phone-prefix">+91</span>
+                        <input 
+                            type="tel" 
+                            class="phone-input" 
+                            id="phoneNumber"
+                            placeholder="6346466460"
+                            maxlength="10"
+                            pattern="[0-9]{10}"
+                            required
+                        >
+                    </div>
+                    <div class="helper-text">We'll send you a 6-digit verification code</div>
+                </div>
+
+                <button type="submit" class="send-otp-btn">Send OTP</button>
+            </form>
+
+            <div class="terms-text">
+                By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+            </div>
+
+            <div class="back-link">
+                <a href="index.html">← Back to Home</a>
+            </div>
+        </div>
+
+        <!-- OTP Verification Screen -->
+        <div id="otpScreen" class="otp-screen">
+            <div class="logo">
+                <div class="logo-icon">🌱</div>
+                <div class="logo-text">FoodBridge</div>
+            </div>
+
+            <div class="welcome-text">Enter verification code</div>
+            <div class="helper-text" style="text-align: center; margin-bottom: 10px;">
+                Sent to +91 <span id="displayPhone"></span>
+            </div>
+
+            <div class="error-message" id="otpErrorMessage">
+                <span>⚠️</span>
+                <span id="otpErrorText">Invalid OTP</span>
+            </div>
+
+            <form id="otpForm">
+                <div class="otp-inputs">
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                </div>
+
+                <button type="submit" class="send-otp-btn">Verify & Continue</button>
+            </form>
+
+            <div class="resend-text">
+                Didn't receive code? <a href="#" class="resend-link" id="resendLink">Resend</a>
+            </div>
+
+            <div class="back-link">
+                <a href="#" id="backToPhone">← Change phone number</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const phoneScreen = document.getElementById('phoneScreen');
+        const otpScreen = document.getElementById('otpScreen');
+        const phoneForm = document.getElementById('phoneForm');
+        const otpForm = document.getElementById('otpForm');
+        const phoneInput = document.getElementById('phoneNumber');
+        const otpInputs = document.querySelectorAll('.otp-input');
+        const errorMessage = document.getElementById('errorMessage');
+        const otpErrorMessage = document.getElementById('otpErrorMessage');
+        const displayPhone = document.getElementById('displayPhone');
+        const backToPhone = document.getElementById('backToPhone');
+        const resendLink = document.getElementById('resendLink');
+
+        // Phone form submission
+        phoneForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const phone = phoneInput.value;
+
+            if (phone.length !== 10) {
+                showError('Please enter a valid 10-digit phone number');
+                return;
+            }
+
+            // For demo: just show OTP screen
+            displayPhone.textContent = phone;
+            phoneScreen.style.display = 'none';
+            otpScreen.classList.add('active');
+            otpInputs[0].focus();
+        });
+
+        // OTP input handling
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+        });
+
+        // OTP form submission
+        otpForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+
+            if (otp.length !== 6) {
+                showOtpError('Please enter complete OTP');
+                return;
+            }
+
+            // For demo: redirect to dashboard
+            window.location.href = 'dashboard.html';
+        });
+
+        // Back to phone
+        backToPhone.addEventListener('click', (e) => {
+            e.preventDefault();
+            otpScreen.classList.remove('active');
+            phoneScreen.style.display = 'block';
+            otpInputs.forEach(input => input.value = '');
+        });
+
+        // Resend OTP
+        resendLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('OTP resent successfully!');
+        });
+
+        function showError(message) {
+            document.getElementById('errorText').textContent = message;
+            errorMessage.classList.add('show');
+            setTimeout(() => errorMessage.classList.remove('show'), 3000);
+        }
+
+        function showOtpError(message) {
+            document.getElementById('otpErrorText').textContent = message;
+            otpErrorMessage.classList.add('show');
+            setTimeout(() => otpErrorMessage.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

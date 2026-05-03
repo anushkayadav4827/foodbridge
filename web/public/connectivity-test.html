@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodBridge Backend Connectivity Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #718096;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f7fafc;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #2d3748;
+        }
+        button {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
+        }
+        button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .success {
+            background: #c6f6d5;
+            border: 2px solid #48bb78;
+            color: #22543d;
+        }
+        .error {
+            background: #fed7d7;
+            border: 2px solid #f56565;
+            color: #742a2a;
+        }
+        .info {
+            background: #bee3f8;
+            border: 2px solid #4299e1;
+            color: #2c5282;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-online {
+            background: #48bb78;
+            box-shadow: 0 0 8px #48bb78;
+        }
+        .status-offline {
+            background: #f56565;
+            box-shadow: 0 0 8px #f56565;
+        }
+        .input-group {
+            margin: 15px 0;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4a5568;
+            font-weight: 600;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #4299e1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔌 Backend Connectivity Test</h1>
+        <p class="subtitle">Test your connection to the FoodBridge backend server</p>
+
+        <!-- Test 1: Health Check -->
+        <div class="test-section">
+            <h3><span class="status-indicator" id="health-status"></span>Test 1: Health Check</h3>
+            <p>Verify that the backend server is running and responding.</p>
+            <button onclick="testHealth()">Run Health Check</button>
+            <div id="health-result"></div>
+        </div>
+
+        <!-- Test 2: Send OTP -->
+        <div class="test-section">
+            <h3>Test 2: Send OTP</h3>
+            <p>Test the OTP sending functionality.</p>
+            <div class="input-group">
+                <label>Phone Number:</label>
+                <input type="text" id="phone-input" value="9876543210" placeholder="Enter 10-digit phone number">
+            </div>
+            <button onclick="testSendOTP()">Send OTP</button>
+            <div id="otp-result"></div>
+        </div>
+
+        <!-- Test 3: Verify OTP & Login -->
+        <div class="test-section">
+            <h3>Test 3: Verify OTP & Login</h3>
+            <p>Verify OTP and get authentication token. (Demo OTP is always: <strong>123456</strong>)</p>
+            <div class="input-group">
+                <label>Phone Number:</label>
+                <input type="text" id="verify-phone-input" value="9876543210">
+            </div>
+            <div class="input-group">
+                <label>OTP Code:</label>
+                <input type="text" id="otp-code-input" value="123456" placeholder="Enter 6-digit OTP">
+            </div>
+            <button onclick="testVerifyOTP()">Verify OTP & Login</button>
+            <div id="verify-result"></div>
+        </div>
+
+        <!-- Test 4: Create Listing -->
+        <div class="test-section">
+            <h3>Test 4: Create Listing (Requires Login)</h3>
+            <p>Test creating a food listing with authentication.</p>
+            <button onclick="testCreateListing()" id="create-listing-btn">Create Test Listing</button>
+            <div id="listing-result"></div>
+        </div>
+
+        <!-- Test 5: Full Flow -->
+        <div class="test-section">
+            <h3>🚀 Test 5: Complete Flow</h3>
+            <p>Run all tests in sequence to verify the complete authentication and listing flow.</p>
+            <button onclick="runFullFlow()" style="background: #48bb78;">Run Complete Flow</button>
+            <div id="flow-result"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3005';
+        let authToken = null;
+        let refreshToken = null;
+
+        function showResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.className = `result ${type}`;
+            element.textContent = message;
+        }
+
+        async function testHealth() {
+            const statusIndicator = document.getElementById('health-status');
+            try {
+                showResult('health-result', '⏳ Testing connection...', 'info');
+                
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                
+                statusIndicator.className = 'status-indicator status-online';
+                showResult('health-result', 
+                    `✅ SUCCESS!\n\nServer Status: ${data.status}\nUptime: ${Math.floor(data.uptime)}s\nMessage: ${data.message}\nTimestamp: ${data.timestamp}`,
+                    'success'
+                );
+            } catch (error) {
+                statusIndicator.className = 'status-indicator status-offline';
+                showResult('health-result', 
+                    `❌ FAILED!\n\nError: ${error.message}\n\nMake sure the backend server is running on port 3005.\nRun: cd backend && npm run dev:mock`,
+                    'error'
+                );
+            }
+        }
+
+        async function testSendOTP() {
+            const phone = document.getElementById('phone-input').value;
+            
+            if (!phone || phone.length !== 10) {
+                showResult('otp-result', '❌ Please enter a valid 10-digit phone number', 'error');
+                return;
+            }
+
+            try {
+                showResult('otp-result', '⏳ Sending OTP...', 'info');
+                
+                const response = await fetch(`${API_BASE}/api/v1/auth/send-otp`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        phoneNumber: phone,
+                        countryCode: '+91'
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult('otp-result', 
+                        `✅ SUCCESS!\n\nOTP sent to +91${phone}\nDemo OTP: ${data.demo.otp}\n\nNote: ${data.demo.note}`,
+                        'success'
+                    );
+                    // Auto-fill the verify section
+                    document.getElementById('verify-phone-input').value = phone;
+                } else {
+                    showResult('otp-result', `❌ FAILED!\n\n${data.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('otp-result', `❌ FAILED!\n\nError: ${error.message}`, 'error');
+            }
+        }
+
+        async function testVerifyOTP() {
+            const phone = document.getElementById('verify-phone-input').value;
+            const otp = document.getElementById('otp-code-input').value;
+            
+            if (!phone || phone.length !== 10) {
+                showResult('verify-result', '❌ Please enter a valid 10-digit phone number', 'error');
+                return;
+            }
+
+            if (!otp || otp.length !== 6) {
+                showResult('verify-result', '❌ Please enter a valid 6-digit OTP', 'error');
+                return;
+            }
+
+            try {
+                showResult('verify-result', '⏳ Verifying OTP...', 'info');
+                
+                const response = await fetch(`${API_BASE}/api/v1/auth/verify-otp`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        phoneNumber: phone,
+                        otpCode: otp,
+                        countryCode: '+91'
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    authToken = data.token;
+                    refreshToken = data.refreshToken;
+                    
+                    showResult('verify-result', 
+                        `✅ SUCCESS!\n\nLogin successful!\nUser ID: ${data.user.id}\nPhone: ${data.user.phoneNumber}\nNew User: ${data.isNewUser}\n\nToken saved! You can now create listings.`,
+                        'success'
+                    );
+                    
+                    // Enable create listing button
+                    document.getElementById('create-listing-btn').disabled = false;
+                } else {
+                    showResult('verify-result', `❌ FAILED!\n\n${data.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('verify-result', `❌ FAILED!\n\nError: ${error.message}`, 'error');
+            }
+        }
+
+        async function testCreateListing() {
+            if (!authToken) {
+                showResult('listing-result', '❌ Please login first (complete Test 3)', 'error');
+                return;
+            }
+
+            try {
+                showResult('listing-result', '⏳ Creating test listing...', 'info');
+                
+                const response = await fetch(`${API_BASE}/api/v1/listings`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        title: 'Test Biryani - 20 portions',
+                        description: 'Fresh vegetable biryani',
+                        foodTypes: ['cooked_hot'],
+                        quantityValue: 20,
+                        quantityUnit: 'meals',
+                        isVegetarian: true,
+                        isVegan: false,
+                        isHalal: true,
+                        allergens: [],
+                        photoUrls: [],
+                        pickupAddress: '123 Test Street, Bangalore',
+                        pickupLatitude: 12.9716,
+                        pickupLongitude: 77.5946,
+                        readyFrom: new Date().toISOString(),
+                        pickupBy: new Date(Date.now() + 4 * 60 * 60 * 1000).toISOString()
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult('listing-result', 
+                        `✅ SUCCESS!\n\nListing created!\nID: ${data.listing.id}\nTitle: ${data.listing.title}\nStatus: ${data.listing.status}\nDonor: ${data.listing.donorName}`,
+                        'success'
+                    );
+                } else {
+                    showResult('listing-result', `❌ FAILED!\n\n${data.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('listing-result', `❌ FAILED!\n\nError: ${error.message}`, 'error');
+            }
+        }
+
+        async function runFullFlow() {
+            showResult('flow-result', '🚀 Starting complete flow test...\n\n', 'info');
+            
+            // Test 1: Health Check
+            await testHealth();
+            await sleep(1000);
+            
+            // Test 2: Send OTP
+            showResult('flow-result', '📱 Step 1/4: Sending OTP...', 'info');
+            await testSendOTP();
+            await sleep(1500);
+            
+            // Test 3: Verify OTP
+            showResult('flow-result', '🔐 Step 2/4: Verifying OTP...', 'info');
+            await testVerifyOTP();
+            await sleep(1500);
+            
+            // Test 4: Create Listing
+            showResult('flow-result', '📝 Step 3/4: Creating listing...', 'info');
+            await testCreateListing();
+            await sleep(1000);
+            
+            showResult('flow-result', 
+                '✅ COMPLETE FLOW TEST FINISHED!\n\nAll tests completed. Check individual test results above.',
+                'success'
+            );
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Run health check on page load
+        window.onload = () => {
+            testHealth();
+        };
+    </script>
+</body>
+</html>

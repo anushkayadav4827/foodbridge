@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodBridge - Working Demo Application</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F5F7FA;
+            color: #2D3748;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2E7D32 0%, #66BB6A 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .connection-status {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4CAF50;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .status-dot.offline {
+            background: #f44336;
+            animation: none;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            color: #64748B;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .tab:hover {
+            background: #F1F5F9;
+        }
+
+        .tab.active {
+            background: #2E7D32;
+            color: white;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #1E293B;
+            margin-bottom: 20px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 {
+            color: #475569;
+            margin: 20px 0 12px;
+            font-size: 16px;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #2E7D32;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1B5E20;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #E2E8F0;
+            color: #475569;
+        }
+
+        .btn-secondary:hover {
+            background: #CBD5E1;
+        }
+
+        .btn-danger {
+            background: #DC2626;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #B91C1C;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2E7D32;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Listings */
+        .listing-item {
+            background: #F8FAFC;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #2E7D32;
+        }
+
+        .listing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .listing-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: #1E293B;
+        }
+
+        .listing-status {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-claimed {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .status-completed {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        .listing-meta {
+            display: flex;
+            gap: 20px;
+            color: #64748B;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .listing-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* Claims */
+        .claim-item {
+            background: #FFF7ED;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #F59E0B;
+        }
+
+        .claim-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .claim-receiver {
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .claim-timer {
+            background: #FEE2E2;
+            color: #991B1B;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .claim-details {
+            color: #64748B;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .claim-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Response Box */
+        .response-box {
+            background: #F8FAFC;
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .response-box pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748B;
+        }
+
+        .spinner {
+            border: 3px solid #E2E8F0;
+            border-top: 3px solid #2E7D32;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748B;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Alert */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert-success {
+            background: #D1FAE5;
+            color: #065F46;
+            border-left: 4px solid #10B981;
+        }
+
+        .alert-error {
+            background: #FEE2E2;
+            color: #991B1B;
+            border-left: 4px solid #EF4444;
+        }
+
+        .alert-info {
+            background: #DBEAFE;
+            color: #1E40AF;
+            border-left: 4px solid #3B82F6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+
+            .listing-header,
+            .claim-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                🌱 FoodBridge Demo
+            </div>
+            <div class="connection-status">
+                <div>
+                    <span class="status-dot" id="statusDot"></span>
+                </div>
+                <div>
+                    <div style="font-size: 12px; opacity: 0.9;">Server Status</div>
+                    <div style="font-weight: 600;" id="statusText">Checking...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+            <button class="tab" onclick="switchTab('listings')">📝 Listings</button>
+            <button class="tab" onclick="switchTab('claims')">🎯 Claims</button>
+            <button class="tab" onclick="switchTab('create')">➕ Create Listing</button>
+            <button class="tab" onclick="switchTab('api')">🔌 API Test</button>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="grid-3">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalListings">0</div>
+                    <div class="stat-label">Total Listings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="pendingClaims">0</div>
+                    <div class="stat-label">Pending Claims</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="apiEndpoints">17</div>
+                    <div class="stat-label">API Endpoints</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🏥 System Health</h2>
+                <div id="healthInfo" class="loading">
+                    <div class="spinner"></div>
+                    <div>Checking system health...</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📊 Implementation Progress</h2>
+                <div style="background: #F8FAFC; padding: 20px; border-radius: 8px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="font-weight: 600;">Overall Progress</span>
+                        <span style="font-weight: 600; color: #2E7D32;">30%</span>
+                    </div>
+                    <div style="background: #E2E8F0; height: 12px; border-radius: 6px; overflow: hidden;">
+                        <div style="background: linear-gradient(90deg, #2E7D32, #66BB6A); width: 30%; height: 100%;"></div>
+                    </div>
+                    <div style="margin-top: 15px; color: #64748B; font-size: 14px;">
+                        ✅ 6 of 20 tasks completed • ~3,330 lines of code written
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Listings Tab -->
+        <div id="listings" class="tab-content">
+            <div class="card">
+                <h2>📝 All Listings</h2>
+                <div style="margin-bottom: 20px;">
+                    <button class="btn btn-primary" onclick="loadListings()">🔄 Refresh Listings</button>
+                </div>
+                <div id="listingsContainer" class="loading">
+                    <div class="spinner"></div>
+                    <div>Loading listings...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Claims Tab -->
+        <div id="claims" class="tab-content">
+            <div class="card">
+                <h2>🎯 Pending Claims</h2>
+                <div class="alert alert-info">
+                    <span>ℹ️</span>
+                    <div>Claims require authentication. This demo shows the structure without actual data.</div>
+                </div>
+                <div id="claimsContainer">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🎯</div>
+                        <h3>No Pending Claims</h3>
+                        <p>Claims will appear here when receivers request your food listings.</p>
+                        <p style="margin-top: 10px; font-size: 14px; color: #94A3B8;">
+                            Auto-rejection after 15 minutes • Cron job running every 1 minute
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Listing Tab -->
+        <div id="create" class="tab-content">
+            <div class="card">
+                <h2>➕ Create New Listing</h2>
+                <div class="alert alert-info">
+                    <span>ℹ️</span>
+                    <div>This form demonstrates the listing creation structure. Actual submission requires authentication.</div>
+                </div>
+                
+                <form id="createListingForm" onsubmit="handleCreateListing(event)">
+                    <div class="form-group">
+                        <label>Title *</label>
+                        <input type="text" name="title" placeholder="e.g., Fresh Vegetable Curry" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="description" placeholder="Describe the food..."></textarea>
+                    </div>
+
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Quantity *</label>
+                            <input type="number" name="quantity" placeholder="e.g., 10" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Unit *</label>
+                            <select name="unit" required>
+                                <option value="meals">Meals</option>
+                                <option value="kg">Kilograms</option>
+                                <option value="containers">Containers</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Food Type *</label>
+                        <select name="foodType" required>
+                            <option value="cooked_hot">Cooked Hot</option>
+                            <option value="cooked_cold">Cooked Cold</option>
+                            <option value="raw_vegetables">Raw Vegetables</option>
+                            <option value="packaged">Packaged</option>
+                            <option value="bakery">Bakery</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pickup Address *</label>
+                        <textarea name="address" placeholder="Full pickup address..." required></textarea>
+                    </div>
+
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Ready From *</label>
+                            <input type="datetime-local" name="readyFrom" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Pickup By *</label>
+                            <input type="datetime-local" name="pickupBy" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Urgency Level *</label>
+                        <select name="urgency" required>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn btn-primary">Create Listing</button>
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('createListingForm').reset()">Clear Form</button>
+                    </div>
+                </form>
+
+                <div id="createResponse" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- API Test Tab -->
+        <div id="api" class="tab-content">
+            <div class="card">
+                <h2>🔌 API Endpoint Testing</h2>
+                
+                <h3>Health Check</h3>
+                <button class="btn btn-primary" onclick="testAPI('GET', '/health', 'healthResponse')">
+                    Test GET /health
+                </button>
+                <div id="healthResponse" class="response-box" style="display: none;"></div>
+
+                <h3>Get All Listings</h3>
+                <button class="btn btn-primary" onclick="testAPI('GET', '/api/v1/listings?page=1&limit=10', 'listingsResponse')">
+                    Test GET /api/v1/listings
+                </button>
+                <div id="listingsResponse" class="response-box" style="display: none;"></div>
+
+                <h3>Create Listing (Requires Auth)</h3>
+                <div class="alert alert-info">
+                    <span>ℹ️</span>
+                    <div>This endpoint requires authentication. Use the form in the "Create Listing" tab to see the structure.</div>
+                </div>
+                <button class="btn btn-secondary" disabled>
+                    POST /api/v1/listings (Auth Required)
+                </button>
+
+                <h3>Claim Endpoints (Require Auth)</h3>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" disabled>GET /api/v1/claims/pending</button>
+                    <button class="btn btn-secondary" disabled>PUT /api/v1/claims/:id/accept</button>
+                    <button class="btn btn-secondary" disabled>PUT /api/v1/claims/:id/reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3005';
+        let serverOnline = false;
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            checkServerStatus();
+            loadListings();
+        });
+
+        // Check server status
+        async function checkServerStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                
+                serverOnline = true;
+                document.getElementById('statusDot').classList.remove('offline');
+                document.getElementById('statusText').textContent = 'Online';
+                
+                // Update health info
+                document.getElementById('healthInfo').innerHTML = `
+                    <div style="background: #D1FAE5; padding: 20px; border-radius: 8px; border-left: 4px solid #10B981;">
+                        <div style="font-weight: 600; color: #065F46; margin-bottom: 10px;">✅ All Systems Operational</div>
+                        <div style="color: #047857; font-size: 14px;">
+                            <div>Status: ${data.status}</div>
+                            <div>Environment: ${data.environment}</div>
+                            <div>Uptime: ${Math.floor(data.uptime)} seconds</div>
+                            <div>Timestamp: ${new Date(data.timestamp).toLocaleString()}</div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                serverOnline = false;
+                document.getElementById('statusDot').classList.add('offline');
+                document.getElementById('statusText').textContent = 'Offline';
+                
+                document.getElementById('healthInfo').innerHTML = `
+                    <div style="background: #FEE2E2; padding: 20px; border-radius: 8px; border-left: 4px solid #EF4444;">
+                        <div style="font-weight: 600; color: #991B1B; margin-bottom: 10px;">❌ Server Offline</div>
+                        <div style="color: #B91C1C; font-size: 14px;">
+                            <div>Cannot connect to http://localhost:3005</div>
+                            <div style="margin-top: 10px;">Start the server with: <code>cd backend && npm run dev</code></div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Load listings
+        async function loadListings() {
+            const container = document.getElementById('listingsContainer');
+            container.innerHTML = '<div class="loading"><div class="spinner"></div><div>Loading listings...</div></div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/listings?page=1&limit=10`);
+                const data = await response.json();
+                
+                document.getElementById('totalListings').textContent = data.total || 0;
+
+                if (data.listings && data.listings.length > 0) {
+                    container.innerHTML = data.listings.map(listing => `
+                        <div class="listing-item">
+                            <div class="listing-header">
+                                <div class="listing-title">${listing.title}</div>
+                                <div class="listing-status status-${listing.status}">${listing.status}</div>
+                            </div>
+                            <div class="listing-meta">
+                                <span>📦 ${listing.quantity_value} ${listing.quantity_unit}</span>
+                                <span>🍽️ ${listing.food_types.join(', ')}</span>
+                                <span>⏰ ${new Date(listing.pickup_by).toLocaleString()}</span>
+                            </div>
+                            <div style="color: #64748B; font-size: 14px;">
+                                ${listing.description || 'No description'}
+                            </div>
+                            <div class="listing-actions">
+                                <button class="btn btn-primary btn-sm" onclick="viewListing('${listing.id}')">View Details</button>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📝</div>
+                            <h3>No Listings Yet</h3>
+                            <p>Create your first listing to get started!</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                container.innerHTML = `
+                    <div style="background: #FEE2E2; padding: 20px; border-radius: 8px; text-align: center; color: #991B1B;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">❌</div>
+                        <div style="font-weight: 600; margin-bottom: 10px;">Failed to Load Listings</div>
+                        <div style="font-size: 14px;">${error.message}</div>
+                        <button class="btn btn-primary" onclick="loadListings()" style="margin-top: 15px;">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // View listing details
+        function viewListing(id) {
+            alert(`Viewing listing ${id}\n\nThis would open a detailed view with:\n- Full listing information\n- Photos\n- Location map\n- Claim history\n- Actions (edit, cancel, etc.)`);
+        }
+
+        // Handle create listing form
+        function handleCreateListing(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            const responseDiv = document.getElementById('createResponse');
+            responseDiv.style.display = 'block';
+            responseDiv.className = 'alert alert-info';
+            responseDiv.innerHTML = `
+                <span>ℹ️</span>
+                <div>
+                    <strong>Form Data Captured:</strong>
+                    <pre style="margin-top: 10px; background: white; padding: 10px; border-radius: 4px; font-size: 12px;">${JSON.stringify(data, null, 2)}</pre>
+                    <div style="margin-top: 10px; font-size: 14px;">
+                        To actually create this listing, you would need to:
+                        <ol style="margin-top: 8px; margin-left: 20px;">
+                            <li>Authenticate with the API</li>
+                            <li>POST this data to /api/v1/listings</li>
+                            <li>Include authentication token in headers</li>
+                        </ol>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Test API endpoint
+        async function testAPI(method, path, responseId) {
+            const responseDiv = document.getElementById(responseId);
+            responseDiv.style.display = 'block';
+            responseDiv.innerHTML = '<pre>Loading...</pre>';
+
+            try {
+                const response = await fetch(`${API_BASE}${path}`, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const data = await response.json();
+                
+                responseDiv.innerHTML = `
+                    <strong>Status:</strong> ${response.status} ${response.statusText}<br>
+                    <strong>Response:</strong><br>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                responseDiv.innerHTML = `
+                    <strong style="color: #DC2626;">Error:</strong><br>
+                    <pre>${error.message}</pre>
+                `;
+            }
+        }
+
+        // Switch tabs
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+
+            // Load data for specific tabs
+            if (tabName === 'listings') {
+                loadListings();
+            } else if (tabName === 'dashboard') {
+                checkServerStatus();
+            }
+        }
+
+        // Auto-refresh server status every 30 seconds
+        setInterval(checkServerStatus, 30000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+========================================
+  🚀 DEPLOY YOUR APP - START HERE
+========================================
+
+STEP 1: Double-click this file:
+        👉 FIREBASE_LOGIN_AND_DEPLOY.bat
+
+STEP 2: When browser opens:
+        - Sign in with Google
+        - Click "Allow"
+        - Return to terminal
+
+STEP 3: Answer the questions:
+        - Use existing project: Yes
+        - Project: foodbridge-app (or create new)
+        - Public directory: web/dist
+        - Single-page app: Yes
+        - GitHub deploys: No
+
+STEP 4: Wait for deployment (3-5 minutes)
+
+STEP 5: Your app is live! 🎉
+        https://foodbridge-app.web.app
+
+========================================
+
+Need detailed help?
+Open: DEPLOY_NOW.md
+
+Having issues?
+Open: FIX_FIREBASE_AND_DEPLOY.md
+
+========================================

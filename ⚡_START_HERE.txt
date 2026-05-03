@@ -1,0 +1,71 @@
+========================================
+  🚀 DEPLOY YOUR BACKEND - START HERE
+========================================
+
+Your frontend is already live! ✅
+https://foodbridge-app-51332.web.app
+
+Now let's deploy the backend in 4 simple steps:
+
+========================================
+  STEP 1: INSTALL GIT
+========================================
+
+Click this link and download Git:
+👉 https://git-scm.com/download/win
+
+Install it (click Next through everything)
+Then close and reopen your terminal.
+
+Too complicated? Use GitHub Desktop instead:
+👉 https://desktop.github.com/
+
+========================================
+  STEP 2: PUSH TO GITHUB
+========================================
+
+Double-click this file:
+👉 PUSH_TO_GITHUB.bat
+
+It will push your code to:
+https://github.com/anushkayadav5403/foodbridge
+
+========================================
+  STEP 3: DEPLOY ON RENDER
+========================================
+
+1. Go to: https://render.com/
+2. Sign up with GitHub (it's free!)
+3. Create PostgreSQL Database (free tier)
+4. Create Web Service (free tier)
+5. Connect your foodbridge repository
+6. Add environment variables (see RENDER_ENV_VARIABLES.txt)
+7. Wait 5 minutes for deployment
+
+Full guide: DEPLOY_BACKEND_TO_RENDER.md
+
+========================================
+  STEP 4: CONNECT FRONTEND
+========================================
+
+Double-click this file:
+👉 UPDATE_FRONTEND.bat
+
+Enter your Render backend URL when asked.
+Done! Your app is fully live! 🎉
+
+========================================
+  TOTAL TIME: ~30 minutes
+  TOTAL COST: $0 (completely free!)
+========================================
+
+DETAILED GUIDES:
+- 🚀_NEXT_STEPS.md (quick overview)
+- ✅_COMPLETE_DEPLOYMENT_GUIDE.md (step-by-step)
+- ✅_DEPLOYMENT_CHECKLIST.txt (checklist)
+
+========================================
+
+👉 START NOW: Install Git
+https://git-scm.com/download/win
+

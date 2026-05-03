@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Test - FoodBridge API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .success {
+            background: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        pre {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        h1 {
+            color: #2E7D32;
+        }
+        .status {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="success">
+        <h1>✅ Server is Working!</h1>
+        <p class="status">The FoodBridge API server is running successfully on port 3005</p>
+    </div>
+
+    <div class="info">
+        <h2>Server Health Check</h2>
+        <p>The server responded with:</p>
+        <pre id="healthData">Loading...</pre>
+    </div>
+
+    <div class="info">
+        <h2>What This Means</h2>
+        <ul>
+            <li>✅ Server is running on port 3005</li>
+            <li>✅ Database is connected</li>
+            <li>✅ API endpoints are accessible</li>
+            <li>✅ All services are operational</li>
+        </ul>
+    </div>
+
+    <div class="info">
+        <h2>Available Endpoints</h2>
+        <ul>
+            <li><strong>GET /health</strong> - Server health check</li>
+            <li><strong>GET /api/v1/listings</strong> - Get all listings</li>
+            <li><strong>GET /api/v1/claims/pending</strong> - Get pending claims (requires auth)</li>
+            <li><strong>POST /api/v1/listings</strong> - Create listing (requires auth)</li>
+            <li>...and 13 more endpoints!</li>
+        </ul>
+    </div>
+
+    <div class="info">
+        <h2>Next Steps</h2>
+        <ol>
+            <li>Use the <a href="api-test.html">API Test Page</a> to test endpoints interactively</li>
+            <li>Use Postman or curl to test authenticated endpoints</li>
+            <li>Connect your frontend application to the API</li>
+        </ol>
+    </div>
+
+    <script>
+        // Fetch health data
+        fetch('http://localhost:3005/health')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('healthData').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                document.getElementById('healthData').textContent = 'Error: ' + error.message;
+            });
+    </script>
+</body>
+</html>

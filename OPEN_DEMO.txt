@@ -1,0 +1,39 @@
+🚀 FOODBRIDGE DEMO 🚀
+
+The demo is ready!
+
+TO VIEW THE DEMO:
+==================
+
+Option 1: Double-click this file:
+   demo/index.html
+
+Option 2: Run this file:
+   LAUNCH_DEMO.bat
+
+Option 3: Open in browser:
+   C:\Users\Asus\OneDrive\Desktop\wastenot\demo\index.html
+
+
+WHAT YOU'LL SEE:
+================
+✅ Beautiful landing page
+✅ Green gradient hero section
+✅ Animated stats (50K+ meals saved!)
+✅ Feature cards with hover effects
+✅ How it works section
+✅ Call-to-action sections
+✅ Professional footer
+
+
+TO RUN FULL APPLICATION:
+========================
+1. Install Node.js from nodejs.org
+2. Install PostgreSQL from postgresql.org
+3. Install Redis from redis.io
+4. Read QUICKSTART.md for setup
+
+The demo should have already opened in your browser!
+If not, just double-click: demo/index.html
+
+Enjoy! 🌱

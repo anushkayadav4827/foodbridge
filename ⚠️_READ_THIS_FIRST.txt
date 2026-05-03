@@ -1,0 +1,52 @@
+========================================
+  ⚠️ IMPORTANT - READ THIS FIRST
+========================================
+
+You got an error because the Firebase project
+doesn't exist yet!
+
+========================================
+  ✅ WHAT TO DO NOW
+========================================
+
+STEP 1: Create Firebase Project
+        👉 Go to: https://console.firebase.google.com/
+        👉 Sign in with Google
+        👉 Click "Add project"
+        👉 Name: foodbridge-app
+        👉 Disable Google Analytics
+        👉 Click "Create project"
+        👉 Wait 30 seconds
+        👉 Click "Continue"
+
+STEP 2: Run Firebase Init Again
+        👉 In your terminal, run:
+           firebase init hosting
+        
+        👉 Answer the questions:
+           - Use existing project: Yes
+           - Select: foodbridge-app
+           - Public directory: web/dist
+           - Single-page app: Yes
+           - GitHub deploys: No
+
+STEP 3: Build and Deploy
+        👉 Run these commands:
+           cd web
+           npm run build
+           cd ..
+           firebase deploy --only hosting
+
+========================================
+  🎉 YOUR APP WILL BE LIVE!
+========================================
+
+After deployment:
+https://foodbridge-app.web.app
+
+========================================
+
+Need detailed help?
+Open: CREATE_FIREBASE_PROJECT_FIRST.md
+
+========================================

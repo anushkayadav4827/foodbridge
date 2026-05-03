@@ -1,0 +1,66 @@
+╔══════════════════════════════════════════════════════════════╗
+║                  🌱 FOODBRIDGE QUICK REFERENCE                ║
+╚══════════════════════════════════════════════════════════════╝
+
+🌐 MAIN URL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   http://localhost:3001/
+
+🔑 DEMO CREDENTIALS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Phone: 9876543210 (or any 10 digits)
+   OTP:   123456 (always works)
+
+🎯 QUICK TEST FLOW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   1. Open http://localhost:3001/
+   2. Click "Get Started"
+   3. Login: 9876543210 / OTP: 123456
+   4. Select "Donor" role
+   5. Enter name: "John Doe"
+   6. Complete setup
+   7. Create listing:
+      - Title: "Delicious Biryani"
+      - Quantity: 20
+      - Address: "123 Main St"
+      - Set times
+   8. Post listing ✅
+
+✅ WHAT'S WORKING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ✓ Landing page with animations
+   ✓ Login with OTP
+   ✓ Role selection
+   ✓ Onboarding
+   ✓ Dashboard
+   ✓ Create listing
+   ✓ Form validation
+   ✓ Notifications
+
+🐛 IF IT FAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   • Refresh: Ctrl + Shift + R
+   • Check URL: localhost:3001 (not 3000/3002)
+   • Login again if "Unauthorized"
+   • Check console: Press F12
+
+📊 SERVERS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Frontend: http://localhost:3001/ ✅
+   Backend:  http://localhost:3005/ ✅
+
+💡 TIPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   • Use sidebar to navigate after login
+   • All forms validate before submit
+   • Success = green toast, Error = red toast
+   • Stats counter animates on scroll
+
+🎉 SUCCESS!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   If you can create a listing and see success message,
+   everything is working perfectly! 🚀
+
+╔══════════════════════════════════════════════════════════════╗
+║  Open http://localhost:3001/ and start testing!              ║
+╚══════════════════════════════════════════════════════════════╝
