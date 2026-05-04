@@ -92,6 +92,10 @@ dump.rdb
 *.key
 !mock-*.key
 
+# Firebase Service Account Keys
+serviceAccountKey.json
+**/serviceAccountKey.json
+
 # Documentation builds
 docs/_build/
 
