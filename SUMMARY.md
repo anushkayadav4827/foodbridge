@@ -63,7 +63,12 @@ foodbridge/
         ├── server.ts              ✅ Express + Socket.IO server
         │
         ├── database/
-        │   └── connection.ts      ✅ PostgreSQL pool & transactions
+        │   └── const pool = new Pool({
+  connectionString: process.env.database_url,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});      ✅ PostgreSQL pool & transactions
         │
         ├── cache/
         │   └── redis.ts           ✅ Redis client & helpers

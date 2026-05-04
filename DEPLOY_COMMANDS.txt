@@ -1,0 +1,55 @@
+# EXACT COMMANDS TO RUN
+
+## 1. Push to GitHub
+git add .
+git commit -m "Fix deployment for Render"
+git push origin main
+
+## 2. After Render deployment completes, update frontend
+cd web
+npm run build
+cd ..
+firebase deploy --only hosting
+
+## 3. Test
+# Open browser: https://foodbridge-app-51332.web.app
+
+---
+
+# RENDER ENVIRONMENT VARIABLES (copy-paste to Render dashboard)
+
+NODE_ENV=production
+PORT=10000
+API_VERSION=v1
+DATABASE_URL=<your-render-database-internal-url>
+JWT_SECRET=foodbridge-prod-jwt-secret-2024-change-this
+JWT_EXPIRES_IN=7d
+JWT_REFRESH_SECRET=foodbridge-prod-refresh-secret-2024-change-this
+JWT_REFRESH_EXPIRES_IN=30d
+OTP_EXPIRY_MINUTES=10
+OTP_MAX_ATTEMPTS=3
+OTP_LOCKOUT_MINUTES=10
+CORS_ORIGIN=https://foodbridge-app-51332.web.app
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX_REQUESTS=100
+MAX_FILE_SIZE_MB=10
+MAX_PHOTOS_PER_LISTING=6
+DEFAULT_SEARCH_RADIUS_KM=5
+MAX_SEARCH_RADIUS_KM=25
+CLAIM_ACCEPT_TIMEOUT_MINUTES=15
+PICKUP_CODE_EXPIRY_HOURS=1
+MAX_ACTIVE_CLAIMS_PER_USER=5
+MIN_RATING_THRESHOLD=2.5
+AUTO_SUSPEND_RATING=2.5
+AUTO_SUSPEND_MIN_RATINGS=10
+MAX_CANCELLATIONS_PER_MONTH=3
+LOG_LEVEL=info
+ADMIN_EMAIL=admin@foodbridge.org
+ADMIN_PHONE=+919876543210
+
+---
+
+# RENDER WEB SERVICE SETTINGS
+
+Build Command: cd backend && npm install && npm run build
+Start Command: cd backend && npm start

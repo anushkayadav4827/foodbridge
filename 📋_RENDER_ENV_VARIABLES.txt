@@ -1,0 +1,94 @@
+========================================
+  RENDER ENVIRONMENT VARIABLES
+========================================
+
+Copy these to Render Web Service when creating it.
+Go to: Environment Variables section
+
+========================================
+  REQUIRED VARIABLES (Must set these!)
+========================================
+
+NODE_ENV=production
+
+PORT=3005
+
+DATABASE_URL=<PASTE_YOUR_INTERNAL_DATABASE_URL_HERE>
+(Get this from Step 2 - PostgreSQL database)
+
+JWT_SECRET=foodbridge-secret-key-change-this-12345
+(Change to any random string)
+
+JWT_REFRESH_SECRET=foodbridge-refresh-key-change-this-67890
+(Change to any random string)
+
+JWT_EXPIRES_IN=7d
+
+JWT_REFRESH_EXPIRES_IN=30d
+
+CORS_ORIGIN=https://foodbridge-app-51332.web.app
+
+========================================
+  OPTIONAL VARIABLES (Can leave empty)
+========================================
+
+REDIS_URL=redis://localhost:6379
+
+TWILIO_ACCOUNT_SID=
+(Leave empty to use mock OTP with code 123456)
+
+TWILIO_AUTH_TOKEN=
+(Leave empty)
+
+TWILIO_PHONE_NUMBER=
+(Leave empty)
+
+AWS_REGION=ap-south-1
+
+AWS_ACCESS_KEY_ID=
+(Leave empty for now)
+
+AWS_SECRET_ACCESS_KEY=
+(Leave empty for now)
+
+AWS_S3_BUCKET=foodbridge-uploads
+
+========================================
+  HOW TO ADD THESE IN RENDER
+========================================
+
+1. When creating Web Service, scroll to
+   "Environment Variables" section
+
+2. Click "Add Environment Variable"
+
+3. Enter Key (e.g., NODE_ENV)
+
+4. Enter Value (e.g., production)
+
+5. Click "Add" or press Enter
+
+6. Repeat for all variables above
+
+========================================
+  IMPORTANT NOTES
+========================================
+
+✅ DATABASE_URL: Use INTERNAL URL from your
+   PostgreSQL database (not External)
+
+✅ JWT_SECRET: Change to a random string
+   (e.g., use a password generator)
+
+✅ CORS_ORIGIN: Must match your Firebase URL
+   exactly (no trailing slash)
+
+✅ Twilio variables: Leave empty to use mock
+   OTP (code will always be 123456)
+
+========================================
+
+After adding all variables, click:
+"Create Web Service"
+
+========================================
